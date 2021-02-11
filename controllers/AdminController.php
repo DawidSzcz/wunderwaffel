@@ -2,13 +2,14 @@
 
 namespace app\controllers;
 
+use app\models\AdminUser;
 use Yii;
 use app\models\User;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use yii\filters\auth\HttpBasicAuth;
 /**
  * AdminController implements the CRUD actions for User model.
  */
@@ -20,8 +21,18 @@ class AdminController extends Controller
     public function behaviors()
     {
         return [
+            'basicAuth' => [
+                'class' => HttpBasicAuth::class,
+                'auth' => function ($username, $password) {
+                    $user = AdminUser::findByUsername($username);
+                    if ($user->validatePassword($password)) {
+                        return $user;
+                    }
+                    return null;
+                },
+            ],
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
                 ],

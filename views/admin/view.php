@@ -39,6 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'city',
             'iban',
             'account_owner',
+            'payment_data_id',
         ],
     ]) ?>
 

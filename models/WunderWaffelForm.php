@@ -105,13 +105,9 @@ class WunderWaffelForm extends Model
         ];
     }
 
-    public function registerUser()
+    public function getData()
     {
-        $user = new User();
-
-        $user->attributes = $this->getAttributes();
-
-        $user->save();
+        return $this->getAttributes();
     }
 
     public static function createFromArray(ArrayObject $data): self

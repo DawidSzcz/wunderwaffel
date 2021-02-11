@@ -42,8 +42,23 @@ class User extends ActiveRecord
                 ],
                 'required'
             ],
+            [['payment_data_id'], 'string', 'max' => 100],
             [['firstname', 'lastname', 'street', 'city', 'iban', 'account_owner'], 'string', 'max' => 50],
             [['telephone', 'house_number', 'zip'], 'string', 'max' => 20],
         ];
     }
+
+    public static function createFromArray($data): self
+    {
+        $user = new static();
+        $user->attributes = $data;
+
+        return $user;
+    }
+
+    public function setPaymentDataId(string $payment_data_id)
+    {
+        $this->payment_data_id = $payment_data_id;
+    }
+
 }

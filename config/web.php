@@ -5,6 +5,7 @@ $db = require __DIR__ . '/db.php';
 
 $config = [
     'id' => 'wunderwaffel',
+    'name' => 'Wunder waffel',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'defaultRoute' => 'wunderwaffel/index',
@@ -13,6 +14,15 @@ $config = [
         '@npm'   => '@vendor/npm-asset',
     ],
     'components' => [
+        'user' => [
+            'identityClass' => 'app\models\AdminUser',
+            'enableAutoLogin' => true,
+        ],
+        'wunderApi' => [
+            'class' => 'app\components\WunderApi',
+            'url' => 'https://37f32cl571.execute-api.eu-central-1.amazonaws.com/default/wunderfleet-recruiting-backend-dev-save-payment-data',
+            'result_field' => 'paymentDataId',
+        ],
         'session' => [
             'class' => 'yii\web\DbSession',
         ],
