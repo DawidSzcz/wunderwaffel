@@ -3,7 +3,6 @@
 namespace app\models;
 
 use ArrayObject;
-use Yii;
 use yii\base\Model;
 
 class WunderWaffelForm extends Model
@@ -144,9 +143,6 @@ class WunderWaffelForm extends Model
         $isFilledSecond = array_reduce(static::SECOND_STEP, function ($curry, $item) {
             return $curry && null !== $this->$item;
         }, true);
-        $isFilledThird = array_reduce(static::THIRD_STEP, function ($curry, $item) {
-            return $curry && null !== $this->$item;
-        }, true);
 
         return [
             static::FIRST_STEP_CFG => [
@@ -156,7 +152,7 @@ class WunderWaffelForm extends Model
                 'class' => $hasErrorsSecond || (!$isFilledSecond && $isFilledFirst) ? 'in' : ''
             ],
             static::THIRD_STEP_CFG => [
-                'class' => $hasErrorsThird || (!$isFilledThird && $isFilledFirst && $isFilledSecond) ? 'in' : ''
+                'class' => $hasErrorsThird || ($isFilledFirst && $isFilledSecond) ? 'in' : ''
             ],
         ];
     }

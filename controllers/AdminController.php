@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\AbTestsVariant;
 use app\models\AdminUser;
 use Yii;
 use app\models\User;
@@ -10,6 +11,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\auth\HttpBasicAuth;
+
 /**
  * AdminController implements the CRUD actions for User model.
  */
@@ -52,6 +54,9 @@ class AdminController extends Controller
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,
+            'dataProviderVariants' => new ActiveDataProvider([
+                'query' => AbTestsVariant::find(),
+            ])
         ]);
     }
 

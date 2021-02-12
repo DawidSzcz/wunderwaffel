@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\components\ABTestManager;
 use app\models\User;
 use app\models\WunderWaffelForm;
 use Yii;
@@ -52,7 +53,10 @@ class WunderwaffelController extends Controller
                 $session->set(static::SESSION_FIELD_FORM, new \ArrayObject());
             }
             if (!Yii::$app->request->getIsPost()) {
-                return $this->displayForm(WunderWaffelForm::createFromArray($session[static::SESSION_FIELD_FORM]));
+                return $this->displayForm(
+                    WunderWaffelForm::createFromArray($session[static::SESSION_FIELD_FORM]),
+                    $session
+                );
             } else {
                 return $this->submitForm($session);
             }
@@ -64,7 +68,7 @@ class WunderwaffelController extends Controller
         $form = new WunderWaffelForm();
 
         if (!$form->load(Yii::$app->request->post()) || !$form->validate()) {
-            $this->displayForm($form);
+            return $this->displayForm($form, $session);
         } else {
             $user = User::createFromArray($form->getData());
             $user->save();
@@ -78,13 +82,22 @@ class WunderwaffelController extends Controller
             unset($session[static::SESSION_FIELD_FORM]);
             $session[static::SESSION_FIELD_USER] = $user->id;
 
+            ABTestManager::countSuccess(
+                ABTestManager::REGISTER_VIEW_TEST,
+                $session[ABTestManager::REGISTER_VIEW_TEST]
+            );
+
             return $this->displaySuccess($user);
         }
     }
 
-    private function displayForm($form)
+    private function displayForm($form, Session $session)
     {
-        return $this->render('register-form-b', [
+        if (!isset($session[ABTestManager::REGISTER_VIEW_TEST])) {
+            $session[ABTestManager::REGISTER_VIEW_TEST] = ABTestManager::drawVariant(ABTestManager::REGISTER_VIEW_TEST);
+        }
+
+        return $this->render($session[ABTestManager::REGISTER_VIEW_TEST], [
             'formModel' => $form,
             'stepConfigs' => $form->getStepsConfiguration()
         ]);

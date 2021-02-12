@@ -11,6 +11,7 @@ use yii\widgets\ActiveForm;
 /** @var $stepConfigs array */
 ?>
 <div class="register">
+    <h1>Enjoy your form steps in single view!</h1>
 
     <?php $form = ActiveForm::begin([
         'options' => [
