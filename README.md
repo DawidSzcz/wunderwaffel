@@ -1,5 +1,5 @@
 # WUNDERWAFFEL
-> To make waffel wunder
+> To make waffel wunder again
 
 ### Access
 App is deplyed on AWS. It uses RDS + EC2
