@@ -1,6 +1,10 @@
 # WUNDERWAFFEL
 > To make waffel wunder
 
+### Access
+App is deplyed on AWS. It uses RDS + EC2
+It can be accessed: http://ec2-3-121-201-104.eu-central-1.compute.amazonaws.com/wunderwaffel/register
+
 Let me introduce to you a wonderful  project which makes every waffle enthusiasts’ dreams come true.
 
 The application contains the most beautiful form that you have ever seen.
